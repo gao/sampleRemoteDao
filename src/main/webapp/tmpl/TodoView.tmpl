@@ -1,0 +1,44 @@
+   <!-- --------- TodoView Template --------- -->  
+    <script id="tmpl-TodoView" type="text/html">
+      <div class="TodoView">
+        <section id="todoapp">
+          <header id="header">
+            <h1>todos</h1>
+            <input id="new-todo" placeholder="What needs to be done?" autofocus>
+          </header>
+          <section id="main">
+            <input id="toggle-all" type="checkbox">
+            <label for="toggle-all">Mark all as complete</label>
+            <div class="taskListViewCtn"></div>
+          </section>
+          <footer id="footer">
+            <span id="todo-count"></span>
+            <button id="clear-completed">Clear completed</button>
+          </footer>
+        </section>
+        <footer id="info">
+          <p>Double-click to edit a todo</p>
+          <p>App design &amp; styles from todoMVC</p>
+          <p>Created by <a href="http://www.jeremychone.com/">Jeremy Chone</a></p>
+        </footer>
+      </div>
+    </script>
+    
+    <!-- --------- /TodoView Template --------- -->    
+    
+    <!-- --------- TaskListView Template --------- -->
+    <script id="tmpl-TaskListView-todo-list" type="text/html">
+       <ul id="todo-list" class="TaskListView">
+         {{#each tasks}}
+         <li data-entity="Task" data-entity-id="{{id}}">
+          <div class="view">
+            <input class="toggle" type="checkbox" {{#if done}}checked="checked"{{/if}}>
+            <label>{{title}}</label>
+            <button class="destroy"></button>
+          </div>
+          <input class="edit" value="some">
+         </li>
+         {{/each}}
+       </ul>
+    </script>
+    <!-- --------- TaskListView Template --------- -->
