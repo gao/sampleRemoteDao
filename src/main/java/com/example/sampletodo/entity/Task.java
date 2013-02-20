@@ -7,27 +7,24 @@ import javax.persistence.Table;
 @Table(name = "t_task")
 public class Task extends BaseEntity {
 
-    private String label;
+    private String title;
 
-    private String info;
+    private boolean done;
 
-    public String getLabel() {
-        return label;
+    public String getTitle() {
+        return title;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-
-    public String getInfo() {
-        return info;
+    public boolean isDone() {
+        return done;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public void setDone(boolean done) {
+        this.done = done;
     }
-
-    
     
 }

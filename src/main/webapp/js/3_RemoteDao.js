@@ -31,7 +31,7 @@
 
 		return $.ajax({
 			type : "GET",
-			url : app.remoteServiceURL + "/daoGet.json",
+			url : app.remoteServiceURL + "/api/daoGet",
 			data : data,
 			dataType : "json"
 		}).pipe(function(val) {
@@ -62,7 +62,7 @@
 		}
 		return $.ajax({
 			type : "GET",
-			url : app.remoteServiceURL + "/daoList.json",
+			url : app.remoteServiceURL + "/api/daoList",
 			data : data,
 			dataType : "json"
 		}).pipe(function(val) {
@@ -92,7 +92,7 @@
 		};
 		var dfd = $.ajax({
 			type : "POST",
-			url : app.remoteServiceURL + "/daoSave.do",
+			url : app.remoteServiceURL + "/api/daoSave",
 			data : reqData,
 			dataType : "json"
 		}).pipe(function(val) {
@@ -119,7 +119,7 @@
 
 		return $.ajax({
 			type : "POST",
-			url :app.remoteServiceURL + "/daoSave.do",
+			url :app.remoteServiceURL + "/api/daoSave",
 			data : reqData,
 			dataType : "json"
 		}).pipe(function(val) {
@@ -146,7 +146,7 @@
 
 		return $.ajax({
 			type : "POST",
-			url :app.remoteServiceURL + "/daoBatchUpdate.do",
+			url :app.remoteServiceURL + "/api/daoBatchUpdate",
 			data : reqData,
 			dataType : "json"
 		}).pipe(function(val) {
@@ -161,11 +161,10 @@
 		var reqData = {
 			objType : objectType
 		}
-		reqData.obj_id = id;
 
 		var dfd = $.ajax({
 			type : "POST",
-			url : app.remoteServiceURL + "/daoDelete.do",
+			url : app.remoteServiceURL + "/api/daoDelete-" + id,
 			data : reqData,
 			dataType : "json"
 		}).pipe(function(val) {
@@ -183,7 +182,7 @@
 
 		var dfd = $.ajax({
 			type : "POST",
-			url : app.remoteServiceURL + "/daoDeleteMany.do",
+			url : app.remoteServiceURL + "/api/daoDeleteMany",
 			data : reqData,
 			dataType : "json"
 		}).pipe(function(val) {
@@ -197,5 +196,5 @@
 	brite.dao.RemoteDao = RemoteDao;
 	// ------ /DAO Interface Implementation ------ //
 
-})();
+})(jQuery);
 // --------- /Remote Dao --------- //
