@@ -6,9 +6,16 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.britesnow.snow.web.WebApplicationLifecycle;
 import com.britesnow.snow.web.binding.EntityClasses;
+import com.britesnow.snow.web.db.hibernate.HibernateDaoHelper;
+import com.britesnow.snow.web.db.hibernate.HibernateDaoHelperImpl;
+import com.example.sampletodo.dao.DaoRegistry;
+import com.example.sampletodo.web.HSQLLifeCycle;
 import com.example.sampletodo.entity.BaseEntity;
 import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.metapossum.utils.scanner.reflect.ClassesInPackageScanner;
@@ -26,6 +33,10 @@ public class AppConfig extends AbstractModule {
     @Override
     protected void configure() {
         //bind(AuthRequest.class).to(AppAuthRequest.class);
+        bind(WebApplicationLifecycle.class).to(HSQLLifeCycle.class);
+
+        // Default bind for the HibernateDaoHelper.
+        bind(HibernateDaoHelper.class).to(HibernateDaoHelperImpl.class);
     }
 
     
@@ -52,5 +63,14 @@ public class AppConfig extends AbstractModule {
             throw new RuntimeException("Cannot get all the enity class: " + e.getMessage());
         }
 
+    }
+    
+    @Provides
+    @Singleton
+    @Inject
+    public DaoRegistry providesDaoRegistry(Injector injector, @EntityClasses Class[] entityClasses) {
+        DaoRegistry daoRegistry = new DaoRegistry();
+        daoRegistry.init(injector, entityClasses);
+        return daoRegistry;
     }
 }

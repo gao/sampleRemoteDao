@@ -39,11 +39,22 @@ public class DaoWebHandlers {
             return WebResponse.fail(t);
         }
     }
+    
+    @WebGet("/api/daoCount")
+    public WebResponse daoCount(@WebParam("objType") String objType, @WebParam("opts") String jsonOpts) {
+        IDao dao = daoRegistry.getDao(objType);
+        JSONOptions opts = new JSONOptions(jsonOpts);
+        try {
+            Long cnt = dao.count(opts.getMatchMap());
+            return WebResponse.success(cnt);
+        } catch (Throwable t) {
+            return WebResponse.fail(t);
+        }
+    }
 
     @WebGet("/api/daoList")
     public WebResponse daoList(@WebParam("objType") String objType, @WebParam("opts") String jsonOpts) {
         IDao dao = daoRegistry.getDao(objType);
-        
         JSONOptions opts = new JSONOptions(jsonOpts);
         
         try {
@@ -59,11 +70,10 @@ public class DaoWebHandlers {
     @WebPost("/api/daoSave")
     public WebResponse daoSave(@WebParam("objType") String objType, @WebParam("obj_id") Long id,
                             @WebParam("objJson") String jsonObj) {
-        System.out.println("--------objType:"+objType);
-        System.out.println(jsonObj);
         Map jsonMap = JsonUtil.toMapAndList(jsonObj);
         IDao dao = daoRegistry.getDao(objType);
         Object obj = dao.get(id);
+        
         if (obj == null) {
             obj = daoRegistry.getEntityInstance(objType);
         }

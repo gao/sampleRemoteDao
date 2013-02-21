@@ -39,6 +39,27 @@
 		});
 
 	}
+	
+	RemoteDao.prototype.count = function(opts) {
+		var objectType = this._entityType;
+		var data = {
+			objType : objectType
+		};
+
+		if(opts) {
+			data.opts = JSON.stringify(opts);
+		}
+
+		return $.ajax({
+			type : "GET",
+			url : app.remoteServiceURL + "/api/daoCount",
+			data : data,
+			dataType : "json"
+		}).pipe(function(val) {
+			return val.result;
+		});
+
+	}
 
 	/**
 	 * DAO Interface: Return an array of values or a deferred object (depending of DAO impl) for  options

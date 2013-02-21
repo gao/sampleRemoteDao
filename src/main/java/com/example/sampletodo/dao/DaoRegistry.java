@@ -26,7 +26,7 @@ public class DaoRegistry {
     // Note: if we inject the injector, we get the WebApplication injector and not the WebModule, and Guice throw an error. So, we call daoRegistry.init from XadConfig with the correct injector.
     public void init(Injector injector, Class[] entityClasses) {
         try {
-            Set<Class<? extends BaseHibernateDao>> daoClasses = new ClassesInPackageScanner().findSubclasses("com.xad.cms.dao", BaseHibernateDao.class);
+            Set<Class<? extends BaseHibernateDao>> daoClasses = new ClassesInPackageScanner().findSubclasses("com.example.sampletodo.dao", BaseHibernateDao.class);
 
             Set<Class> entityClassesWithCustomDao = new HashSet<Class>();
 
