@@ -14,7 +14,6 @@ import com.britesnow.snow.web.rest.annotation.WebPost;
 import com.example.sampletodo.web.WebResponse;
 import com.example.sampletodo.dao.DaoRegistry;
 import com.example.sampletodo.dao.IDao;
-import com.example.sampletodo.entity.BaseEntity;
 import com.example.sampletodo.util.JSONOptions;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -46,7 +45,6 @@ public class DaoWebHandlers {
         IDao dao = daoRegistry.getDao(objType);
         JSONOptions opts = new JSONOptions(jsonOpts);
         try {
-            System.out.println("----count--------opts.getMatchMap():"+opts.getMatchMap());
             Long cnt = dao.count(opts.getMatchMap());
             return WebResponse.success(cnt);
         } catch (Throwable t) {
@@ -136,6 +134,7 @@ public class DaoWebHandlers {
         try {
             System.out.println("---------delete id:"+id);
             Object obj = dao.get(id);
+            System.out.println(obj);
             dao.delete(obj);
             return WebResponse.success(id);
         } catch (Throwable t) {
@@ -149,7 +148,6 @@ public class DaoWebHandlers {
         JSONOptions opts = new JSONOptions(jsonOpts);
         List<Object> list = new ArrayList();
         
-        System.out.println("---------batchDelete :"+opts.getMatchMap());
         list = dao.list(opts.getPageIndex(), opts.getPageSize(), 
             opts.getMatchMap(), opts.getOrderBy(), opts.getOrderType());
         

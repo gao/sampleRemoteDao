@@ -9,7 +9,7 @@ public class Task extends BaseEntity {
 
     private String title;
 
-    private Boolean done = false;
+    private boolean done;
 
     public String getTitle() {
         return title;
@@ -19,11 +19,11 @@ public class Task extends BaseEntity {
         this.title = title;
     }
 
-    public Boolean isDone() {
+    public boolean isDone() {
         return done;
     }
 
-    public void setDone(Boolean done) {
+    public void setDone(boolean done) {
         this.done = done;
     }
     

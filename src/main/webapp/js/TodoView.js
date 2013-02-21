@@ -47,8 +47,6 @@
 			"COUNT_CHANGE": function(event,countInfo){
 				var view = this;
 				var left = countInfo.total - countInfo.doneCount;
-				console.log("--------------");
-				console.log(countInfo.total+"------"+countInfo.doneCount);
 				view.$todoCount.html("" + left + " item" + ((left > 1)?"s":"") + " left");
 				if (countInfo.doneCount > 0){
 					view.$clearCompleted.show().html("Clear completed (" + countInfo.doneCount + ")");
