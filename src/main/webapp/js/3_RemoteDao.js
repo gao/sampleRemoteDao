@@ -47,7 +47,7 @@
 		};
 
 		if(opts) {
-			data.opts = JSON.stringify(opts);
+			data.opts = JSON.stringify({match:opts});
 		}
 
 		return $.ajax({
@@ -153,7 +153,7 @@
 
 	}
 	
-	RemoteDao.prototype.batchUpdate = function(data, match) {
+	RemoteDao.prototype.batchUpdate = function(data, opts) {
 		var objectType = this._entityType;
 		var reqData = {
 			objType : objectType,
@@ -161,8 +161,8 @@
 			create : false
 		};
 		
-		if(match) {
-			data.match = JSON.stringify(match);
+		if(opts) {
+			reqData.opts = JSON.stringify({match:opts});
 		}
 
 		return $.ajax({
@@ -173,9 +173,28 @@
 		}).pipe(function(val) {
 			return val;
 		});
-
 	}
 
+	RemoteDao.prototype.batchDelete = function(opts) {
+		var objectType = this._entityType;
+		var reqData = {
+			objType : objectType
+		};
+		
+		if(opts) {
+			reqData.opts = JSON.stringify({match:opts});
+		}
+
+		return $.ajax({
+			type : "POST",
+			url :app.remoteServiceURL + "/api/daoBatchDelete",
+			data : reqData,
+			dataType : "json"
+		}).pipe(function(val) {
+			return val;
+		});
+
+	}
 
 	RemoteDao.prototype.remove = function(id) {
 		var objectType = this._entityType;
@@ -184,7 +203,7 @@
 		}
 
 		var dfd = $.ajax({
-			type : "POST",
+			type : "DELETE",
 			url : app.remoteServiceURL + "/api/daoDelete-" + id,
 			data : reqData,
 			dataType : "json"
@@ -202,7 +221,7 @@
 		reqData.obj_ids = JSON.stringify({obj_ids: ids});
 
 		var dfd = $.ajax({
-			type : "POST",
+			type : "DELETE",
 			url : app.remoteServiceURL + "/api/daoDeleteMany",
 			data : reqData,
 			dataType : "json"

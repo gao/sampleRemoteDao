@@ -1,5 +1,6 @@
 package com.example.sampletodo.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +46,7 @@ public class DaoWebHandlers {
         IDao dao = daoRegistry.getDao(objType);
         JSONOptions opts = new JSONOptions(jsonOpts);
         try {
+            System.out.println("----count--------opts.getMatchMap():"+opts.getMatchMap());
             Long cnt = dao.count(opts.getMatchMap());
             return WebResponse.success(cnt);
         } catch (Throwable t) {
@@ -60,6 +62,42 @@ public class DaoWebHandlers {
         try {
             List<Object> list = dao.list(opts.getPageIndex(), opts.getPageSize(), 
                 opts.getMatchMap(), opts.getOrderBy(), opts.getOrderType());
+            return WebResponse.success(list);
+        } catch (Throwable t) {
+            return WebResponse.fail(t);
+        }
+        
+    }
+    
+    @WebPost("/api/daoBatchUpdate")
+    public WebResponse daoBatchUpdate(@WebParam("objType") String objType,@WebParam("objJson") String jsonObj,  
+                            @WebParam("opts") String jsonOpts) {
+        IDao dao = daoRegistry.getDao(objType);
+        Map jsonMap = JsonUtil.toMapAndList(jsonObj);
+        JSONOptions opts = new JSONOptions(jsonOpts);
+        List<Object> list = new ArrayList();
+        
+        if (jsonOpts =="" || jsonOpts == null) {
+            list = dao.list(opts.getPageIndex(), opts.getPageSize(), 
+                opts.getOrderBy(), opts.getOrderType());
+        }else{
+            list = dao.list(opts.getPageIndex(), opts.getPageSize(), 
+                opts.getMatchMap(), opts.getOrderBy(), opts.getOrderType());
+        }
+        
+        for(int i=0; i<list.size(); i++){
+            Object obj = list.get(i);
+            try {
+                ObjectUtil.populate(obj, jsonMap);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            obj = dao.save(obj);
+        }
+        
+        try {
+            list = dao.list(opts.getPageIndex(), opts.getPageSize(), opts.getOrderBy(), opts.getOrderType());
             return WebResponse.success(list);
         } catch (Throwable t) {
             return WebResponse.fail(t);
@@ -96,13 +134,34 @@ public class DaoWebHandlers {
     public WebResponse daoDelete(@WebParam("objType") String objType, @PathVar("id") Long id) {
         IDao dao = daoRegistry.getDao(objType);
         try {
-            BaseEntity entity = (BaseEntity) dao.get(id);
-            dao.delete(entity);
+            System.out.println("---------delete id:"+id);
+            Object obj = dao.get(id);
+            dao.delete(obj);
             return WebResponse.success(id);
         } catch (Throwable t) {
             return WebResponse.fail(t);
         }
+    }
+    
+    @WebPost("/api/daoBatchDelete")
+    public WebResponse daoBatchDelete(@WebParam("objType") String objType,@WebParam("opts") String jsonOpts) {
+        IDao dao = daoRegistry.getDao(objType);
+        JSONOptions opts = new JSONOptions(jsonOpts);
+        List<Object> list = new ArrayList();
         
+        System.out.println("---------batchDelete :"+opts.getMatchMap());
+        list = dao.list(opts.getPageIndex(), opts.getPageSize(), 
+            opts.getMatchMap(), opts.getOrderBy(), opts.getOrderType());
+        
+        try {
+            for(int i=0; i<list.size(); i++){
+                Object obj = list.get(i);
+                dao.delete(obj);
+            }
+            return WebResponse.success(list);
+        } catch (Throwable t) {
+            return WebResponse.fail(t);
+        }
     }
 
 }

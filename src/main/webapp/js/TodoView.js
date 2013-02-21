@@ -29,7 +29,7 @@
 				var view = this;
 				var val = view.$newTodo.val();
 				if (event.which === 13 && val){
-					app.taskDao.create({title:val}).done(function(newTask){
+					app.taskDao.create({title:val,done:false}).done(function(newTask){
 						view.$newTodo.val("");
 				  });
 				}

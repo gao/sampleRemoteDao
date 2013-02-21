@@ -9,7 +9,7 @@ public class Task extends BaseEntity {
 
     private String title;
 
-    private boolean done;
+    private boolean done = false;
 
     public String getTitle() {
         return title;
