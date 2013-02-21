@@ -143,6 +143,10 @@ public class BaseHibernateDao<E> implements IDao<E> {
                     query += " and " + key + "=? ";
                     filterList.add(new Integer(value.toString()));
                 }
+                if ("Boolean".equals(proClassName)) {
+                    query += " and " + key + "=? ";
+                    filterList.add(value);
+                }
             }
         }
         return query;
