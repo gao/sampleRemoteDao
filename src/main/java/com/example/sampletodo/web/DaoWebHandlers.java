@@ -128,13 +128,11 @@ public class DaoWebHandlers {
         
     }
 
-    @WebDelete("/api/daoDelete-{id}")
-    public WebResponse daoDelete(@WebParam("objType") String objType, @PathVar("id") Long id) {
+    @WebDelete("/api/daoDelete-{objType}-{id}")
+    public WebResponse daoDelete(@PathVar("objType") String objType, @PathVar("id") Long id) {
         IDao dao = daoRegistry.getDao(objType);
         try {
-            System.out.println("---------delete id:"+id);
             Object obj = dao.get(id);
-            System.out.println(obj);
             dao.delete(obj);
             return WebResponse.success(id);
         } catch (Throwable t) {

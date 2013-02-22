@@ -11,7 +11,7 @@
 		events: {
 			"click; .destroy": function(event){
 				var entityRef = $(event.target).bEntity("Task");
-				app.taskDao.remove(entityRef.id);
+				app.taskDao.delete(entityRef.id);
 			}, 
 			
 			"change; input[type='checkbox']": function(event){

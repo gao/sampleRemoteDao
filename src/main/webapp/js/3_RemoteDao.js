@@ -196,16 +196,12 @@
 
 	}
 
-	RemoteDao.prototype.remove = function(id) {
+	RemoteDao.prototype["delete"] = function(id) {
 		var objectType = this._entityType;
-		var reqData = {
-			objType : objectType
-		}
 
 		var dfd = $.ajax({
 			type : "DELETE",
-			url : app.remoteServiceURL + "/api/daoDelete-" + id,
-			data : reqData,
+			url : app.remoteServiceURL + "/api/daoDelete-" + objectType + "-" + id,
 			dataType : "json"
 		}).pipe(function(val) {
 			return id;
