@@ -8,6 +8,15 @@
 			});
 		},
 		
+		postDisplay: function(){
+			var view = this;
+			
+			//when first load the data show the info
+			$.when(app.taskDao.count(),app.taskDao.count({done:true})).done(function(total,doneCount){
+				view.$el.trigger("COUNT_CHANGE",{total:total,doneCount:doneCount});
+			});
+		},
+		
 		events: {
 			"click; .destroy": function(event){
 				var entityRef = $(event.target).bEntity("Task");
